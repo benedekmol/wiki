@@ -31,6 +31,9 @@ spec:
             {{- toYaml .Values.sideload.env | nindent 12 }}
           command: [ "sh", "-c" ]
           args: [ "mkdir -p /wiki/data/sideload && git clone --depth=1 {{ .Values.sideload.repoURL }} /wiki/data/sideload/" ]
+          volumeMounts:
+            - mountPath: /wiki/data/sideload
+              name: locales
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
@@ -67,6 +70,10 @@ spec:
     {{- with .Values.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}
+            {{- if .Values.sideload.enabled }}
+            - mountPath: /wiki/data/sideload
+              name: locales
+            {{- end }}
     {{- end }}
           ports:
             - name: http
@@ -93,4 +100,8 @@ spec:
     {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
+        {{- if .Values.sideload.enabled }}
+        - emptyDir: {}
+          name: locales
+        {{- end }}
     {{- end }}
