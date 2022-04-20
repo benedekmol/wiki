@@ -67,12 +67,12 @@ spec:
                   key: {{ template "wiki.postgresql.secretKey" . }}
             - name: HA_ACTIVE
               value: {{ .Values.replicaCount | int | le 2 | quote }}
-    {{- with .Values.volumeMounts }}
+    # {{- with .Values.volumeMounts }}
           volumeMounts:
-            {{- toYaml . | nindent 12 }}
+            # {{- toYaml . | nindent 12 }}
             - mountPath: /wiki/data/sideload
               name: locales
-    {{- end }}
+    # {{- end }}
           ports:
             - name: http
               containerPort: 3000
@@ -95,9 +95,9 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-    {{- with .Values.volumes }}
+    # {{- with .Values.volumes }}
       volumes:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
+        # {{- toYaml . | nindent 8 }}
+    # {{- end }}
         - emptyDir: {}
           name: locales
