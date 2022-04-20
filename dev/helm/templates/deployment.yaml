@@ -98,6 +98,6 @@ spec:
     {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
+    {{- end }}
         - emptyDir: {}
           name: locales
-    {{- end }}
